@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fm_app/helper/constants/colors_resource.dart';
 import 'package:fm_app/presentation/routes/routes_name.dart';
 
 class InputSalaryScreen extends StatefulWidget {
@@ -25,15 +26,19 @@ class _InputSalaryScreenState extends State<InputSalaryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0, // Remove shadow under the AppBar for a clean look.
-        backgroundColor: Colors.teal, // Set a professional color.
-        title: const Text('User Salary Input'),
-        centerTitle: true,
-      ),
+  elevation: 0, // Remove shadow under the AppBar for a clean look.
+  backgroundColor: ColorResources.PRIMARY_COLOR, // Use primary color
+  title: const Text(
+    'User Salary Input',
+    style: TextStyle(color: Colors.white), // Set text color to white
+  ),
+  centerTitle: true,
+),
+
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.teal, Colors.greenAccent], // Add a gradient background.
+            colors: [ColorResources.PRIMARY_COLOR, Colors.greenAccent], // Use primary color
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -65,7 +70,7 @@ class _InputSalaryScreenState extends State<InputSalaryScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.teal, width: 1.5),
+                          border: Border.all(color: ColorResources.PRIMARY_COLOR, width: 1.5), // Use primary color
                         ),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<String>(
@@ -73,6 +78,7 @@ class _InputSalaryScreenState extends State<InputSalaryScreen> {
                             isExpanded: true,
                             hint: const Text('Choose User Type'),
                             icon: const Icon(Icons.keyboard_arrow_down),
+                            dropdownColor: Colors.white, // Background color of the dropdown menu
                             items: userTypes.map((String type) {
                               return DropdownMenuItem<String>(
                                 value: type,
@@ -84,6 +90,8 @@ class _InputSalaryScreenState extends State<InputSalaryScreen> {
                                 selectedUserType = newValue;
                               });
                             },
+                            style: const TextStyle(color: Colors.teal), // Text color for selected item
+                            iconEnabledColor: ColorResources.PRIMARY_COLOR, // Icon color
                           ),
                         ),
                       ),
@@ -102,7 +110,7 @@ class _InputSalaryScreenState extends State<InputSalaryScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.teal, width: 1.5),
+                          border: Border.all(color: ColorResources.PRIMARY_COLOR, width: 1.5), // Use primary color
                         ),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<String>(
@@ -110,6 +118,7 @@ class _InputSalaryScreenState extends State<InputSalaryScreen> {
                             isExpanded: true,
                             hint: const Text('Choose Salary Range'),
                             icon: const Icon(Icons.keyboard_arrow_down),
+                            dropdownColor: Colors.white, // Background color of the dropdown menu
                             items: salaryRanges.map((String range) {
                               return DropdownMenuItem<String>(
                                 value: range,
@@ -121,6 +130,8 @@ class _InputSalaryScreenState extends State<InputSalaryScreen> {
                                 selectedSalaryRange = newValue;
                               });
                             },
+                            style: const TextStyle(color: Colors.teal), // Text color for selected item
+                            iconEnabledColor: ColorResources.PRIMARY_COLOR, // Icon color
                           ),
                         ),
                       ),
@@ -149,7 +160,7 @@ class _InputSalaryScreenState extends State<InputSalaryScreen> {
                           icon: const Icon(Icons.arrow_forward, color: Colors.white),
                           label: const Text('Next'),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.teal, // Set the background color.
+                            backgroundColor: ColorResources.PRIMARY_COLOR, // Use primary color
                             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
