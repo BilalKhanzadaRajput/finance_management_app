@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fm_app/helper/constants/colors_resource.dart';
 import '../../routes/routes_name.dart';
 
 class ExpensesScreen extends StatefulWidget {
@@ -68,111 +69,126 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.teal,
+        backgroundColor: ColorResources.PRIMARY_COLOR,
         title: const Text('Monthly Expenses Input'),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [ColorResources.PRIMARY_COLOR, Colors.greenAccent],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-          elevation: 8,
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Enter Your Monthly Expenses',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.teal),
-                ),
-                const SizedBox(height: 20),
-
-                // Groceries Input Field
-                TextField(
-                  controller: groceriesController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Groceries',
-                    hintText: 'Enter amount spent on groceries',
-                    prefixIcon: const Icon(Icons.shopping_cart),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Card(
+            color: Colors.transparent, // Make the card color transparent
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            elevation: 8,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white, // Set the background color of the card
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Enter Your Monthly Expenses',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: ColorResources.PRIMARY_COLOR),
                     ),
-                  ),
-                ),
-                const SizedBox(height: 15),
+                    const SizedBox(height: 20),
 
-                // Utility Bills Input Field
-                TextField(
-                  controller: utilityBillsController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Utility Bills',
-                    hintText: 'Enter amount spent on utility bills',
-                    prefixIcon: const Icon(Icons.lightbulb),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15),
-
-                // Mobile Recharges Input Field
-                TextField(
-                  controller: mobileRechargesController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Mobile Recharges',
-                    hintText: 'Enter amount spent on mobile recharges',
-                    prefixIcon: const Icon(Icons.phone_android),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15),
-
-                // Other Expenses Input Field
-                TextField(
-                  controller: otherExpensesController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Other Expenses',
-                    hintText: 'Enter amount spent on other expenses',
-                    prefixIcon: const Icon(Icons.money),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 30),
-
-                // Proceed Button
-                Center(
-                  child: ElevatedButton.icon(
-                    onPressed: validateAndProceed,
-                    icon: const Icon(Icons.arrow_forward, color: Colors.white),
-                    label: const Text('Next'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.teal,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 40, vertical: 15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                    // Groceries Input Field
+                    TextField(
+                      controller: groceriesController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: 'Groceries',
+                        hintText: 'Enter amount spent on groceries',
+                        prefixIcon: const Icon(Icons.shopping_cart),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                      textStyle: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                  ),
+                    const SizedBox(height: 15),
+
+                    // Utility Bills Input Field
+                    TextField(
+                      controller: utilityBillsController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: 'Utility Bills',
+                        hintText: 'Enter amount spent on utility bills',
+                        prefixIcon: const Icon(Icons.lightbulb),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+
+                    // Mobile Recharges Input Field
+                    TextField(
+                      controller: mobileRechargesController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: 'Mobile Recharges',
+                        hintText: 'Enter amount spent on mobile recharges',
+                        prefixIcon: const Icon(Icons.phone_android),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+
+                    // Other Expenses Input Field
+                    TextField(
+                      controller: otherExpensesController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: 'Other Expenses',
+                        hintText: 'Enter amount spent on other expenses',
+                        prefixIcon: const Icon(Icons.money),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+
+                    // Proceed Button
+                    Center(
+                      child: ElevatedButton.icon(
+                        onPressed: validateAndProceed,
+                        icon: const Icon(Icons.arrow_forward, color: Colors.white),
+                        label: const Text('Next'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorResources.PRIMARY_COLOR,
+                          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          textStyle: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
