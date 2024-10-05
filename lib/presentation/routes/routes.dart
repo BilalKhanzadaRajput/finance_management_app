@@ -8,6 +8,7 @@ import 'package:fm_app/presentation/screens/homeScreens/expenses_screen.dart';
 import 'package:fm_app/presentation/screens/homeScreens/goal_result_screen.dart';
 import 'package:fm_app/presentation/screens/homeScreens/input_salary_screen.dart';
 import 'package:fm_app/presentation/screens/homeScreens/my_goals_screen.dart';
+import 'package:fm_app/presentation/screens/homeScreens/welcome_screen.dart';
 
 import '../../businessLogic/bloc/loginScreenBloc/login_screen_bloc.dart';
 import '../../businessLogic/bloc/signUpScreenBloc/sign_up_screen_bloc.dart';
@@ -17,6 +18,10 @@ import '../screens/authenticationScreens/sign_up_screen.dart';
 class Routes {
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case RoutesName.WELCOME_SCREEN:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const WelcomeScreen(),
+        );
       case RoutesName.LOG_IN_SCREEN:
         return MaterialPageRoute(
           builder: (BuildContext context) => BlocProvider<LoginScreenBloc>(
