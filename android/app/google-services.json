@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "291167011915",
+    "project_id": "fm-app-65515",
+    "storage_bucket": "fm-app-65515.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291167011915:android:dcdddac9397147315cb9ce",
+        "android_client_info": {
+          "package_name": "com.example.fm_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJZ5ULU0fSjTvBZv5Zc1LQHkbnouY0Lk0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
