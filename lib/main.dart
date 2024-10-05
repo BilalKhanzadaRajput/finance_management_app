@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeClass.appTheme,
         initialRoute:
-            isLoggedIn ? RoutesName.LOG_IN_SCREEN : RoutesName.LOG_IN_SCREEN,
+            isLoggedIn ? RoutesName.DASHBOARD_SCREEN : RoutesName.LOG_IN_SCREEN,
         onGenerateRoute: Routes.generateRoute,
         debugShowCheckedModeBanner: false,
       ),

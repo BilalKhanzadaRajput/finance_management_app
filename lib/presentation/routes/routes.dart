@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fm_app/businessLogic/bloc/dashboardScreenBloc/dashboard_screen_bloc.dart';
 import 'package:fm_app/presentation/routes/routes_name.dart';
+import 'package:fm_app/presentation/screens/homeScreens/dashboard_screen.dart';
 import 'package:fm_app/presentation/screens/homeScreens/home_screen.dart';
 
 import '../../businessLogic/bloc/loginScreenBloc/login_screen_bloc.dart';
@@ -28,6 +30,14 @@ class Routes {
           case RoutesName.HOME_SCREEN:
         return MaterialPageRoute(
           builder: (BuildContext context) => const HomeScreen(), // Add HomeScreen route
+        );
+
+            case RoutesName.DASHBOARD_SCREEN:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => BlocProvider<DashBoardScreenBloc>(
+            create: (context) => DashBoardScreenBloc(),
+            child: const DashBoardScreen(),
+          ),
         );
         
 
