@@ -6,6 +6,14 @@ class RoutesName {
   static const String UNDER_DEVELOPMENT_SCREEN = '/under_development_screen';
   static const String HOME_SCREEN = '/home_screen';
   static const String DASHBOARD_SCREEN = '/dashboard_screen';
+  static const String INPUT_SALARY_SCREEN = '/inputSalaryScreen';
+  static const String EXPENSES_SCREEN = '/expensesScreen';
+  static const String GOAL_RESULT_SCREEN = '/goalResultScreen';
+  static const String ALL_GOALS_SCREEN = '/allGoalsScreen';
+  static const String MY_GOALS_SCREEN = 'myGoalsScreen';
+
+
+
 
 
 

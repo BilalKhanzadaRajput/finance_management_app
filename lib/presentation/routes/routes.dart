@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fm_app/businessLogic/bloc/dashboardScreenBloc/dashboard_screen_bloc.dart';
 import 'package:fm_app/presentation/routes/routes_name.dart';
+import 'package:fm_app/presentation/screens/homeScreens/all_goals_screen.dart';
 import 'package:fm_app/presentation/screens/homeScreens/dashboard_screen.dart';
-import 'package:fm_app/presentation/screens/homeScreens/home_screen.dart';
+import 'package:fm_app/presentation/screens/homeScreens/expenses_screen.dart';
+import 'package:fm_app/presentation/screens/homeScreens/goal_result_screen.dart';
+import 'package:fm_app/presentation/screens/homeScreens/input_salary_screen.dart';
+import 'package:fm_app/presentation/screens/homeScreens/my_goals_screen.dart';
 
 import '../../businessLogic/bloc/loginScreenBloc/login_screen_bloc.dart';
 import '../../businessLogic/bloc/signUpScreenBloc/sign_up_screen_bloc.dart';
@@ -27,20 +31,50 @@ class Routes {
             child: const SignUpScreen(),
           ),
         );
-          case RoutesName.HOME_SCREEN:
-        return MaterialPageRoute(
-          builder: (BuildContext context) => const HomeScreen(), // Add HomeScreen route
-        );
 
-            case RoutesName.DASHBOARD_SCREEN:
+      case RoutesName.DASHBOARD_SCREEN:
         return MaterialPageRoute(
           builder: (BuildContext context) => BlocProvider<DashBoardScreenBloc>(
             create: (context) => DashBoardScreenBloc(),
             child: const DashBoardScreen(),
           ),
         );
-        
 
+      case RoutesName.INPUT_SALARY_SCREEN:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => BlocProvider<DashBoardScreenBloc>(
+            create: (context) => DashBoardScreenBloc(),
+            child: const InputSalaryScreen(),
+          ),
+        );
+      case RoutesName.EXPENSES_SCREEN:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => BlocProvider<DashBoardScreenBloc>(
+            create: (context) => DashBoardScreenBloc(),
+            child: const ExpensesScreen(),
+          ),
+        );
+      case RoutesName.ALL_GOALS_SCREEN:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => BlocProvider<DashBoardScreenBloc>(
+            create: (context) => DashBoardScreenBloc(),
+            child: const AllGoalsScreen(),
+          ),
+        );
+      case RoutesName.GOAL_RESULT_SCREEN:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => BlocProvider<DashBoardScreenBloc>(
+            create: (context) => DashBoardScreenBloc(),
+            child: const GoalResultScreen(),
+          ),
+        );
+      case RoutesName.MY_GOALS_SCREEN:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => BlocProvider<DashBoardScreenBloc>(
+            create: (context) => DashBoardScreenBloc(),
+            child: const MyGoalsScreen(),
+          ),
+        );
     }
     return null;
   }

@@ -101,13 +101,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             onTap: () {
                               switch (index) {
                                 case 0:
-                              
+                                 Navigator.pushNamed(context, RoutesName.INPUT_SALARY_SCREEN);
                                   break;
                                 case 1:
-                              
+                                 Navigator.pushNamed(context, RoutesName.MY_GOALS_SCREEN);
                                   break;
                                 case 2:
-                           
+
                               }
                             },
                             child: Container(
@@ -374,13 +374,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   String _getTextForIndex(int index) {
     switch (index) {
       case 0:
-        return StringResources.GALLERY_TITLE; // Text for Videos
+        return 'Input Salary'; // Text for Videos
       case 1:
-        return StringResources.JOB_ANNOUCMENTS; // Text for Job Announcements
+        return 'My Goals'; // Text for Job Announcements
       case 2:
-        return StringResources.SEARCH_TITLE; // Text for Search
+        return 'Account Settings'; // Text for Search
       case 3:
-        return StringResources.COMPLAINTS; // Text for Complaints
+        return 'Currently untitled'; // Text for Complaints
       default:
         return 'Unknown'; // Default text if index is not matched
     }
