@@ -72,7 +72,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           }
         },
         child: Padding(
-          padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
+          padding: EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE.w),
           child: BlocBuilder<DashBoardScreenBloc, DashBoardScreenState>(
             builder: (context, state) {
               if (state.isLoading) {
@@ -82,75 +82,102 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               } else if (state.images.isNotEmpty) {
                 return SingleChildScrollView(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-     
-                      // Add GridView here
-                      GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: Dimensions.PADDING_SIZE_SMALL,
-                          mainAxisSpacing: Dimensions.PADDING_SIZE_SMALL,
-                        ),
-                        itemCount: 4,
-                        // Number of items in GridView
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              switch (index) {
-                                case 0:
-                                 Navigator.pushNamed(context, RoutesName.INPUT_SALARY_SCREEN);
-                                  break;
-                                case 1:
-                                 Navigator.pushNamed(context, RoutesName.MY_GOALS_SCREEN);
-                                  break;
-                                case 2:
+                      // Add the image to the top of the screen
+                      Image.asset(
+                        'assets/images/home.jpeg',
+                        width: double.infinity,
+                        height: 200.h, // Adjust height as needed
+                        fit: BoxFit.cover,
+                      ),
+                      SizedBox(height: Dimensions.PADDING_SIZE_LARGE.h),
 
-                              }
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: ColorResources.PRIMARY_COLOR,
-                                // Change color as needed
-                                borderRadius: BorderRadius.circular(8.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.2),
-                                    spreadRadius: 2,
-                                    blurRadius: 5,
-                                    offset: const Offset(
-                                        0, 3), // changes position of shadow
+                      // First Card with increased height and responsive design
+                      SizedBox(
+                        height: 120.h, // Increased height
+                        child: Card(
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE.w),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '₨', // PKR Symbol
+                                  style: TextStyle(
+                                    fontSize: 50.sp, // Size of symbol
+                                    color: ColorResources.PRIMARY_COLOR,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ],
-                              ),
-                              alignment: Alignment.center,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    _getIconForIndex(index),
-                                    color: Colors.white,
-                                    size: 40.sp,
-                                  ),
-                                  const SizedBox(
-                                      height: Dimensions.PADDING_SIZE_SMALL),
-                                  Text(
-                                    _getTextForIndex(index),
+                                ),
+                                SizedBox(width: Dimensions.PADDING_SIZE_LARGE.w),
+                                Expanded(
+                                  child: Text(
+                                    'Input Budget',
                                     style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16.sp,
+                                      fontSize: 22.sp,
                                       fontWeight: FontWeight.bold,
                                     ),
-                                    textAlign: TextAlign.center,
                                   ),
-                                ],
-                              ),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.arrow_forward_ios,
+                                      size: 24.sp, color: ColorResources.PRIMARY_COLOR),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, RoutesName.INPUT_SALARY_SCREEN);
+                                  },
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                      )
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: Dimensions.PADDING_SIZE_LARGE.h),
+
+                      // Second Card with increased height and responsive design
+                      SizedBox(
+                        height: 120.h, // Increased height
+                        child: Card(
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE.w),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.flag,
+                                  size: 50.sp,
+                                  color: ColorResources.PRIMARY_COLOR,
+                                ),
+                                SizedBox(width: Dimensions.PADDING_SIZE_LARGE.w),
+                                Expanded(
+                                  child: Text(
+                                    'My Goals',
+                                    style: TextStyle(
+                                      fontSize: 22.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.arrow_forward_ios,
+                                      size: 24.sp, color: ColorResources.PRIMARY_COLOR),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, RoutesName.MY_GOALS_SCREEN);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -182,81 +209,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               ],
             ),
           ),
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.only(
-                top: Dimensions.PADDING_SIZE_EXTRA_OVER_LARGE.h,
-              ),
-              children: [
-
-                buildDrawerItem(
-                  context,
-                  icon: Icons.home_outlined,
-                  text: StringResources.HOME_ICON_TEXT,
-                  onTap: () => Navigator.pop(context),
-                ),
-                buildDrawerItem(
-                  context,
-                  icon: Icons.feedback_outlined,
-                  text: StringResources.COMPLAINTS,
-                  onTap: () =>
-                      {},
-                ),
-                buildDrawerItem(
-                  context,
-                  icon: Icons.work_outline_outlined,
-                  text: StringResources.JOB_ANNOUCMENTS,
-                  onTap: () => {},
-                ),
-                buildDrawerItem(
-                  context,
-                  icon: Icons.video_camera_back_outlined,
-                  text: StringResources.VIDEOS_TITLE,
-                  onTap: () async {
-                    const url =
-                        'https://www.youtube.com/@SarwariJamaatPakistan';
-                    if (await canLaunch(url)) {
-                      await launch(url);
-                    } else {
-                      // Handle error
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Launch failed due to an unknown error $url'),
-                          backgroundColor: ColorResources.ERROR_RED_COLOR,
-                        ),
-                      );
-                    }
-                  },
-                ),
-                buildDrawerItem(
-                  context,
-                  icon: Icons.search_outlined,
-                  text: StringResources.SEARCH_TITLE,
-                  onTap: () =>
-                  {}
-                ),
-                buildDrawerItem(
-                  context,
-                  icon: Icons.info_outline_rounded,
-                  text: StringResources.ABOUT_US,
-                  onTap: () async {
-                    const url = 'https://www.sarwarijamaat.pk/';
-                    if (await canLaunch(url)) {
-                      await launch(url);
-                    } else {
-                      // Handle error
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Could not launch $url'),
-                          backgroundColor: ColorResources.ERROR_RED_COLOR,
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
+          const Spacer(),
           Padding(
             padding: EdgeInsets.only(
                 left: Dimensions.PADDING_8.w,
@@ -286,50 +239,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     );
   }
 
-  Widget buildDrawerItem(BuildContext context,
-      {required IconData icon,
-      required String text,
-      required VoidCallback onTap}) {
-    return Padding(
-      padding: EdgeInsets.only(left: Dimensions.PADDING_8.w),
-      child: ListTile(
-        leading: Icon(icon, color: ColorResources.WHITE_COLOR),
-        title: Text(
-          text,
-          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                fontSize: Dimensions.FONT_SIZE_LARGE.sp,
-                color: ColorResources.WHITE_COLOR,
-              ),
-        ),
-        onTap: onTap,
-      ),
-    );
-  }
-
-  Widget buildImage(String urlImage, int index) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12),
-      color: Colors.grey,
-      child: Image.network(
-        urlImage,
-        fit: BoxFit.cover,
-      ),
-    );
-  }
-
-  Widget buildIndicator(int activeIndex, int itemCount) {
-    return AnimatedSmoothIndicator(
-      activeIndex: activeIndex,
-      count: itemCount,
-      effect: const ScrollingDotsEffect(
-        dotWidth: 10,
-        dotHeight: 10,
-        activeDotColor: ColorResources.PRIMARY_COLOR,
-        dotColor: Colors.grey,
-      ),
-    );
-  }
-
   void showLogOutDialog(BuildContext context, VoidCallback onPressed) {
     showDialog(
       context: context,
@@ -354,35 +263,5 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         ],
       ),
     );
-  }
-
-  IconData _getIconForIndex(int index) {
-    switch (index) {
-      case 0:
-        return Icons.photo_camera_back_outlined; // Icon for Videos
-      case 1:
-        return Icons.work_outline_outlined; // Icon for Job Announcements
-      case 2:
-        return Icons.search_outlined; // Icon for Search
-      case 3:
-        return Icons.feedback_outlined; // Icon for Complaints
-      default:
-        return Icons.help_outline; // Default icon if index is not matched
-    }
-  }
-
-  String _getTextForIndex(int index) {
-    switch (index) {
-      case 0:
-        return 'Input Salary'; // Text for Videos
-      case 1:
-        return 'My Goals'; // Text for Job Announcements
-      case 2:
-        return 'Account Settings'; // Text for Search
-      case 3:
-        return 'Currently untitled'; // Text for Complaints
-      default:
-        return 'Unknown'; // Default text if index is not matched
-    }
   }
 }

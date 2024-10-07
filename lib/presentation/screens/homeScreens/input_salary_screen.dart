@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fm_app/helper/constants/colors_resource.dart';
 import 'package:fm_app/presentation/routes/routes_name.dart';
 
@@ -13,167 +14,192 @@ class _InputSalaryScreenState extends State<InputSalaryScreen> {
   String? selectedUserType;
   String? selectedSalaryRange;
 
-  final List<String> userTypes = ['Businessman', 'Employee', 'Freelancer', 'Student'];
+  final List<String> userTypes = [
+    'Businessman',
+    'Employee',
+    'Freelancer',
+    'Student',
+  ];
+
   final List<String> salaryRanges = [
-    'Below \$1,000',
-    '\$1,000 - \$2,000',
-    '\$2,000 - \$3,000',
-    '\$3,000 - \$5,000',
-    'Above \$5,000',
+    'Below ₨100,000',
+    '₨100,000 - ₨200,000',
+    '₨200,000 - ₨300,000',
+    '₨300,000 - ₨500,000',
+    'Above ₨500,000',
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white, // Set background color to white
       appBar: AppBar(
-  elevation: 0, // Remove shadow under the AppBar for a clean look.
-  backgroundColor: ColorResources.PRIMARY_COLOR, // Use primary color
-  title: const Text(
-    'User Salary Input',
-    style: TextStyle(color: Colors.white), // Set text color to white
-  ),
-  centerTitle: true,
-),
-
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [ColorResources.PRIMARY_COLOR, Colors.greenAccent], // Use primary color
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+        automaticallyImplyLeading: false,
+        elevation: 0, // No shadow under AppBar
+        backgroundColor: ColorResources.PRIMARY_COLOR, // Primary color for the AppBar
+        title: Text(
+          'User Salary Input',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 22.sp, // Responsive font size
           ),
         ),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20), // Rounded corners for the card.
-                ),
-                elevation: 8, // Add a shadow for a card-like effect.
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Select User Type',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.teal,
+        centerTitle: true,
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.w), // Responsive padding
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.r), // Responsive radius
+              ),
+              elevation: 8,
+              child: Padding(
+                padding: EdgeInsets.all(20.w), // Responsive padding
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Select User Type',
+                      style: TextStyle(
+                        fontSize: 18.sp, // Responsive font size
+                        fontWeight: FontWeight.bold,
+                        color: ColorResources.PRIMARY_COLOR
+                      ),
+                    ),
+                    SizedBox(height: 10.h), // Responsive spacing
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(
+                          color: ColorResources.PRIMARY_COLOR,
+                          width: 1.5.w, // Responsive border width
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: ColorResources.PRIMARY_COLOR, width: 1.5), // Use primary color
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            value: selectedUserType,
-                            isExpanded: true,
-                            hint: const Text('Choose User Type'),
-                            icon: const Icon(Icons.keyboard_arrow_down),
-                            dropdownColor: Colors.white, // Background color of the dropdown menu
-                            items: userTypes.map((String type) {
-                              return DropdownMenuItem<String>(
-                                value: type,
-                                child: Text(type),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedUserType = newValue;
-                              });
-                            },
-                            style: const TextStyle(color: Colors.teal), // Text color for selected item
-                            iconEnabledColor: ColorResources.PRIMARY_COLOR, // Icon color
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-
-                      const Text(
-                        'Select Monthly Salary Range',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.teal,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: ColorResources.PRIMARY_COLOR, width: 1.5), // Use primary color
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            value: selectedSalaryRange,
-                            isExpanded: true,
-                            hint: const Text('Choose Salary Range'),
-                            icon: const Icon(Icons.keyboard_arrow_down),
-                            dropdownColor: Colors.white, // Background color of the dropdown menu
-                            items: salaryRanges.map((String range) {
-                              return DropdownMenuItem<String>(
-                                value: range,
-                                child: Text(range),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedSalaryRange = newValue;
-                              });
-                            },
-                            style: const TextStyle(color: Colors.teal), // Text color for selected item
-                            iconEnabledColor: ColorResources.PRIMARY_COLOR, // Icon color
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-
-                      Center(
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            if (selectedUserType != null && selectedSalaryRange != null) {
-                              Navigator.pushNamed(
-                                context,
-                                RoutesName.EXPENSES_SCREEN,
-                                arguments: {
-                                  'userType': selectedUserType,
-                                  'salaryRange': selectedSalaryRange,
-                                },
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Please select a user type and salary range'),
-                                ),
-                              );
-                            }
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: selectedUserType,
+                          isExpanded: true,
+                          hint: const Text('Choose User Type'),
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                          dropdownColor: Colors.white,
+                          items: userTypes.map((String type) {
+                            return DropdownMenuItem<String>(
+                              value: type,
+                              child: Text(type),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedUserType = newValue;
+                            });
                           },
-                          icon: const Icon(Icons.arrow_forward, color: Colors.white),
-                          label: const Text('Next'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorResources.PRIMARY_COLOR, // Use primary color
-                            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            textStyle: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          style: TextStyle(
+                        color: ColorResources.PRIMARY_COLOR,
+                            fontSize: 16.sp, // Responsive font size
+                          ),
+                          iconEnabledColor: ColorResources.PRIMARY_COLOR,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+
+                    Text(
+                      'Select Monthly Salary Range',
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
+                        color: ColorResources.PRIMARY_COLOR
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(
+                          color: ColorResources.PRIMARY_COLOR,
+                          width: 1.5.w,
+                        ),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: selectedSalaryRange,
+                          isExpanded: true,
+                          hint: const Text('Choose Salary Range'),
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                          dropdownColor: Colors.white,
+                          items: salaryRanges.map((String range) {
+                            return DropdownMenuItem<String>(
+                              value: range,
+                              child: Text(range),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedSalaryRange = newValue;
+                            });
+                          },
+                          style: TextStyle(
+                        color: ColorResources.PRIMARY_COLOR,
+                            fontSize: 16.sp,
+                          ),
+                          iconEnabledColor: ColorResources.PRIMARY_COLOR,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 30.h),
+
+                    Center(
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          if (selectedUserType != null && selectedSalaryRange != null) {
+                            Navigator.pushNamed(
+                              context,
+                              RoutesName.EXPENSES_SCREEN,
+                              arguments: {
+                                'userType': selectedUserType,
+                                'salaryRange': selectedSalaryRange,
+                              },
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Please select a user type and salary range',
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        icon: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: 24.sp, // Responsive icon size
+                        ),
+                        label: Text(
+                          'Next',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.sp, // Responsive font size
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorResources.PRIMARY_COLOR,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 40.w,
+                            vertical: 15.h,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.r),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

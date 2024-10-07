@@ -97,7 +97,7 @@ class WelcomeScreen extends StatelessWidget {
                         context, RoutesName.LOG_IN_SCREEN);
                   },
                   child: const Text(
-                    'Sign In',
+                    'Log In',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
