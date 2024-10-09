@@ -8,7 +8,7 @@ class GoalResultScreen extends StatefulWidget {
 }
 
 class _GoalResultScreenState extends State<GoalResultScreen> {
-  // Sample data for demonstration
+  // Variables to store data passed from the previous screen
   String goalName = '';
   double goalAmount = 0.0;
   double monthlySavings = 0.0;
@@ -17,13 +17,13 @@ class _GoalResultScreenState extends State<GoalResultScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Retrieve arguments passed from AllGoalsScreen
+    // Retrieve arguments passed from the previous screen (GoalsScreen)
     final arguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     if (arguments != null) {
-      goalName = arguments['goalName'];
-      goalAmount = arguments['goalAmount'];
-      monthlySavings = arguments['monthlySavings'];
-      monthsNeeded = arguments['monthsNeeded'];
+      goalName = arguments['goalName'] ?? '';
+      goalAmount = arguments['goalAmount'] ?? 0.0;
+      monthlySavings = arguments['monthlySavings'] ?? 0.0;
+      monthsNeeded = arguments['monthsNeeded'] ?? 0;
     }
   }
 
@@ -41,38 +41,68 @@ class _GoalResultScreenState extends State<GoalResultScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Goal: $goalName',
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Total Amount Needed: \$${goalAmount.toStringAsFixed(2)}',
-              style: const TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              'Monthly Savings: \$${monthlySavings.toStringAsFixed(2)}',
-              style: const TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              'Months Needed to Achieve Goal: $monthsNeeded',
-              style: const TextStyle(fontSize: 18),
+            Card(
+              elevation: 4,
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Goal: $goalName',
+                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Total Amount Needed: \$${goalAmount.toStringAsFixed(2)}',
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Monthly Savings: \$${monthlySavings.toStringAsFixed(2)}',
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Months Needed to Achieve Goal: $monthsNeeded',
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
+              ),
             ),
             const SizedBox(height: 30),
-            const Text(
-              'Action Plan:',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              '- Create a budget prioritizing your goal.\n'
-              '- Track your expenses to maximize savings.\n'
-              '- Set up a separate savings account for this goal.\n'
-              '- Automate your savings transfers each month.\n'
-              '- Review your progress monthly and adjust as needed.',
-              style: TextStyle(fontSize: 16),
+            Card(
+              elevation: 4,
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'Action Plan:',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      '- Create a budget prioritizing your goal.\n'
+                      '- Track your expenses to maximize savings.\n'
+                      '- Set up a separate savings account for this goal.\n'
+                      '- Automate your savings transfers each month.\n'
+                      '- Review your progress monthly and adjust as needed.',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),

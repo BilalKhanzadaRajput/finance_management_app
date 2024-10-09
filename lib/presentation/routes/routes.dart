@@ -56,14 +56,22 @@ class Routes {
         return MaterialPageRoute(
           builder: (BuildContext context) => BlocProvider<DashBoardScreenBloc>(
             create: (context) => DashBoardScreenBloc(),
-            child: const ExpensesScreen(),
+            child: const ExpensesScreen(), // Pass any arguments if needed
           ),
         );
       case RoutesName.ALL_GOALS_SCREEN:
+        // Extract the arguments passed from the ExpensesScreen
+        final args = settings.arguments as Map<String, dynamic>;
+        final String? salaryRange = args['salaryRange'];
+        final double? remainingAmount = args['remainingAmount'];
+
         return MaterialPageRoute(
           builder: (BuildContext context) => BlocProvider<DashBoardScreenBloc>(
             create: (context) => DashBoardScreenBloc(),
-            child: const AllGoalsScreen(),
+            child: GoalsScreen(
+              salaryRange: salaryRange,        // Pass salary range
+              remainingAmount: remainingAmount, // Pass remaining amount
+            ),
           ),
         );
       case RoutesName.GOAL_RESULT_SCREEN:

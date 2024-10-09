@@ -3,7 +3,9 @@ import 'package:fm_app/helper/constants/colors_resource.dart';
 import '../../routes/routes_name.dart';
 
 class ExpensesScreen extends StatefulWidget {
-  const ExpensesScreen({super.key});
+  final String? salaryRange; // Holds the salary range
+
+  const ExpensesScreen({super.key, this.salaryRange}); // Update constructor
 
   @override
   State<ExpensesScreen> createState() => _ExpensesScreenState();
@@ -13,11 +15,9 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   // Controllers to manage the input values for each category.
   final TextEditingController groceriesController = TextEditingController();
   final TextEditingController utilityBillsController = TextEditingController();
-  final TextEditingController mobileRechargesController =
-      TextEditingController();
+  final TextEditingController mobileRechargesController = TextEditingController();
   final TextEditingController otherExpensesController = TextEditingController();
 
-  // Method to validate and navigate.
   void validateAndProceed() {
     if (groceriesController.text.isEmpty ||
         utilityBillsController.text.isEmpty ||
@@ -35,8 +35,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     // Parse input values.
     double groceries = double.tryParse(groceriesController.text) ?? 0.0;
     double utilityBills = double.tryParse(utilityBillsController.text) ?? 0.0;
-    double mobileRecharges =
-        double.tryParse(mobileRechargesController.text) ?? 0.0;
+    double mobileRecharges = double.tryParse(mobileRechargesController.text) ?? 0.0;
     double otherExpenses = double.tryParse(otherExpensesController.text) ?? 0.0;
 
     // Check if all inputs are valid numbers.
@@ -51,21 +50,42 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       return;
     }
 
+    // Calculate the total of all expenses.
+    double totalExpenses = groceries + utilityBills + mobileRecharges + otherExpenses;
+
+    // Convert salary range to a double
+    double salary = double.tryParse(widget.salaryRange ?? "0") ?? 0.0;
+
+    // Calculate remaining amount after expenses
+    double remainingAmount = salary - totalExpenses;
+
+    // Print values to console
+    print('Salary Range: ${widget.salaryRange}');
+    print('Groceries: $groceries');
+    print('Utility Bills: $utilityBills');
+    print('Mobile Recharges: $mobileRecharges');
+    print('Other Expenses: $otherExpenses');
+    print('Total Expenses: $totalExpenses');
+    print('Remaining Amount after Expenses: $remainingAmount'); // Print remaining amount
+
     // Navigate to the next screen with the entered values.
-    Navigator.pushNamed(
-      context,
-      RoutesName.ALL_GOALS_SCREEN,
-      arguments: {
-        'groceries': groceries,
-        'utilityBills': utilityBills,
-        'mobileRecharges': mobileRecharges,
-        'otherExpenses': otherExpenses,
-      },
-    );
+   Navigator.pushNamed(
+  context,
+  RoutesName.ALL_GOALS_SCREEN,
+  arguments: {
+    'salaryRange': widget.salaryRange, // Pass salary range
+    'remainingAmount': remainingAmount, // Pass remaining amount
+    // Other parameters as necessary
+  },
+);
+
   }
 
   @override
   Widget build(BuildContext context) {
+    // Extract the salary range from the arguments passed
+    final String salaryRange = widget.salaryRange ?? "0";
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -84,14 +104,14 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Card(
-            color: Colors.transparent, // Make the card color transparent
+            color: Colors.transparent,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
             elevation: 8,
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white, // Set the background color of the card
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(
@@ -109,13 +129,27 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                     ),
                     const SizedBox(height: 20),
 
+                    // Display Salary Range
+                    TextField(
+                      controller: TextEditingController(text: salaryRange),
+                      readOnly: true, // Make this field non-editable
+                      decoration: InputDecoration(
+                        labelText: 'Salary Range',
+                        hintText: 'Selected Salary Range',
+                        prefixIcon: const Icon(Icons.monetization_on),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+
                     // Groceries Input Field
                     TextField(
                       controller: groceriesController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         labelText: 'Groceries',
-                        hintText: 'Enter amount spent on groceries',
                         prefixIcon: const Icon(Icons.shopping_cart),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -130,7 +164,6 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         labelText: 'Utility Bills',
-                        hintText: 'Enter amount spent on utility bills',
                         prefixIcon: const Icon(Icons.lightbulb),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -145,8 +178,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         labelText: 'Mobile Recharges',
-                        hintText: 'Enter amount spent on mobile recharges',
-                        prefixIcon: const Icon(Icons.phone_android),
+                        prefixIcon: const Icon(Icons.phone),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -160,14 +192,13 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         labelText: 'Other Expenses',
-                        hintText: 'Enter amount spent on other expenses',
-                        prefixIcon: const Icon(Icons.money),
+                        prefixIcon: const Icon(Icons.miscellaneous_services),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 15),
 
                     // Proceed Button
                     Center(

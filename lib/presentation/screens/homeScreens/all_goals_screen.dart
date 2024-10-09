@@ -1,57 +1,89 @@
 import 'package:flutter/material.dart';
 import '../../routes/routes_name.dart';
 
-class AllGoalsScreen extends StatefulWidget {
-  const AllGoalsScreen({super.key});
+class GoalsScreen extends StatefulWidget {
+  final String? salaryRange;
+  final double? remainingAmount;
+
+  const GoalsScreen({Key? key, this.salaryRange, this.remainingAmount}) : super(key: key);
 
   @override
-  State<AllGoalsScreen> createState() => _AllGoalsScreenState();
+  _GoalsScreenState createState() => _GoalsScreenState();
 }
 
-class _AllGoalsScreenState extends State<AllGoalsScreen> {
-  // List of predefined goals with their respective amounts.
+class _GoalsScreenState extends State<GoalsScreen> {
   final List<Map<String, dynamic>> goals = [
-    {'goalName': 'Buy a Bike', 'amount': 5000.0},
-    {'goalName': 'Buy a Car', 'amount': 20000.0},
-    {'goalName': 'Travel Tickets', 'amount': 3000.0},
-    {'goalName': 'Buy Gold', 'amount': 15000.0},
+    {'goalName': 'Buy a Bike'},
+    {'goalName': 'Buy a Car'},
+    {'goalName': 'Travel Tickets'},
+    {'goalName': 'Buy Gold'},
   ];
 
-  // Variable to hold the selected goal.
   Map<String, dynamic>? selectedGoal;
+  final TextEditingController goalAmountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // Retrieve the user's salary and monthly expenses from arguments.
-    final Map<String, dynamic>? arguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    final String? salaryRange = arguments?['salaryRange'];
-    final double salary = _convertSalaryRangeToAmount(salaryRange ?? '');
-    final double groceries = arguments?['groceries'] ?? 0.0;
-    final double utilityBills = arguments?['utilityBills'] ?? 0.0;
-    final double mobileRecharges = arguments?['mobileRecharges'] ?? 0.0;
-    final double otherExpenses = arguments?['otherExpenses'] ?? 0.0;
-
-    // Calculate total monthly expenses.
-    final double totalExpenses = groceries + utilityBills + mobileRecharges + otherExpenses;
+    final double salary = _convertSalaryRangeToAmount(widget.salaryRange ?? '');
+    final double remainingAmount = widget.remainingAmount ?? salary;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Select a Goal'),
-        centerTitle: true,
-        backgroundColor: Colors.teal,
+        title: const Text('Goals Screen'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Display Remaining Amount and Salary Range
+            Card(
+              elevation: 4,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Remaining Amount After Expenses',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      '\$${remainingAmount.toStringAsFixed(2)}',
+                      style: const TextStyle(
+                        fontSize: 24,
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Salary Range: ',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      widget.salaryRange ?? 'Not Provided',
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+
             const Text(
               'Select a Goal to Achieve',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.teal),
             ),
             const SizedBox(height: 20),
 
-            // Display a list of goals for selection.
             Expanded(
               child: ListView.builder(
                 itemCount: goals.length,
@@ -62,7 +94,6 @@ class _AllGoalsScreenState extends State<AllGoalsScreen> {
                       goal['goalName'],
                       style: const TextStyle(fontSize: 18),
                     ),
-                    subtitle: Text('Amount: \$${goal['amount']}'),
                     trailing: Radio<Map<String, dynamic>>(
                       value: goal,
                       groupValue: selectedGoal,
@@ -78,45 +109,51 @@ class _AllGoalsScreenState extends State<AllGoalsScreen> {
               ),
             ),
 
-            // Next Button to navigate to the Goal Result Screen.
+            const SizedBox(height: 20),
+
+            // TextField for entering goal amount
+            TextField(
+              controller: goalAmountController,
+              decoration: InputDecoration(
+                hintText: 'Enter Goal Amount',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.teal, width: 1.5),
+                ),
+              ),
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 20),
+
             Center(
               child: ElevatedButton.icon(
                 onPressed: () {
-                  if (selectedGoal != null) {
-                    // Calculate the monthly savings amount.
-                    double monthlySavings = salary - totalExpenses;
+                  if (selectedGoal != null && goalAmountController.text.isNotEmpty) {
+                    double goalAmount = double.tryParse(goalAmountController.text) ?? 0.0;
 
-                    // If monthly savings are zero or negative, show a warning and still navigate to result.
-                    if (monthlySavings <= 0) {
-                      monthlySavings = 0; // Set savings to zero for the calculation.
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'Your expenses are higher than or equal to your salary. Monthly savings will be zero.',
-                          ),
-                        ),
-                      );
-                    }
+                    // Use the calculateMonthsToSave function
+                    int monthsNeeded = calculateMonthsToSave(remainingAmount, goalAmount);
 
-                    // Calculate the number of months needed to reach the goal.
-                    double goalAmount = selectedGoal?['amount'] ?? 0.0;
-                    int monthsNeeded = (goalAmount / (monthlySavings == 0 ? 1 : monthlySavings)).ceil();
+                    // Print values to the console
+                    print('Selected Goal: ${selectedGoal?['goalName']}');
+                    print('Goal Amount: $goalAmount');
+                    print('Monthly Savings: $remainingAmount');
+                    print('Months Needed: $monthsNeeded');
 
-                    // Navigate to the Goal Result Screen with calculated values.
-                    Navigator.pushNamed(
-                      context,
-                      RoutesName.GOAL_RESULT_SCREEN,
-                      arguments: {
-                        'goalName': selectedGoal?['goalName'],
-                        'goalAmount': goalAmount,
-                        'monthlySavings': monthlySavings,
-                        'monthsNeeded': monthlySavings == 0 ? double.infinity : monthsNeeded,
-                      },
-                    );
+                 Navigator.pushNamed(
+  context,
+  RoutesName.GOAL_RESULT_SCREEN,
+  arguments: {
+    'goalName': selectedGoal?['goalName'],
+    'goalAmount': goalAmount,
+    'monthlySavings': remainingAmount,
+    'monthsNeeded': monthsNeeded,
+  },
+);
+
                   } else {
-                    // Show a message if no goal is selected.
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please select a goal to proceed.')),
+                      const SnackBar(content: Text('Please select a goal and enter an amount to proceed.')),
                     );
                   }
                 },
@@ -138,21 +175,40 @@ class _AllGoalsScreenState extends State<AllGoalsScreen> {
     );
   }
 
-  // Method to convert salary range string to numeric value.
+  // Convert the salary range string to a double amount
   double _convertSalaryRangeToAmount(String salaryRange) {
     switch (salaryRange) {
-      case 'Below \$1,000':
-        return 1000.0;
-      case '\$1,000 - \$2,000':
-        return 2000.0;
-      case '\$2,000 - \$3,000':
-        return 3000.0;
-      case '\$3,000 - \$5,000':
-        return 5000.0;
-      case 'Above \$5,000':
-        return 6000.0; // Default value for 'Above' case.
+      case '1000 - 2000':
+        return 1500.0;
+      case '2000 - 3000':
+        return 2500.0;
+      case '3000 - 4000':
+        return 3500.0;
+      case '4000 - 5000':
+        return 4500.0;
       default:
-        return 0.0; // Default if no range is provided.
+        return 0.0; // Default case if no match found
     }
+  }
+
+  // Function to calculate months needed to save for the goal
+  int calculateMonthsToSave(double remainingAmount, double itemCost) {
+    if (remainingAmount <= 0) {
+      // If there are no remaining savings, it would take forever to save.
+      return double.infinity.toInt();
+    }
+
+    // Calculate the shortfall
+    double shortfall = itemCost - remainingAmount;
+
+    // If remaining amount is greater than or equal to item cost, no additional months are needed
+    if (shortfall <= 0) {
+      return 0;
+    }
+
+    // Calculate the number of months needed
+    int monthsNeeded = (shortfall / remainingAmount).ceil();
+
+    return monthsNeeded +1;
   }
 }
