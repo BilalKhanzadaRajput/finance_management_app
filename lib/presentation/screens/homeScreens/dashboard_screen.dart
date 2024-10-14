@@ -5,9 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fm_app/businessLogic/bloc/dashboardScreenBloc/dashboard_screen_bloc.dart';
 import 'package:fm_app/presentation/routes/routes_name.dart';
 
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import '../../../helper/constants/colors_resource.dart';
 import '../../../helper/constants/dimensions_resource.dart';
 import '../../../helper/constants/image_resources.dart';
@@ -33,9 +30,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       backgroundColor: ColorResources.BACKGROUND_COLOR,
       appBar: AppBar(
         title: Text(
-          StringResources.DASHBOARD_TITLE,
+          'Finance Management',
           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE.sp,
+                fontSize: Dimensions.D_20.sp,
                 color: ColorResources.WHITE_COLOR,
               ),
         ),
@@ -84,95 +81,85 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Add the image to the top of the screen
                       Image.asset(
-                        'assets/images/home.jpeg',
-                        width: double.infinity,
-                        height: 200.h, // Adjust height as needed
-                        fit: BoxFit.cover,
+                        'assets/images/home_two.png',
                       ),
                       SizedBox(height: Dimensions.PADDING_SIZE_LARGE.h),
 
                       // First Card with increased height and responsive design
-                      SizedBox(
-                        height: 120.h, // Increased height
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, RoutesName.INPUT_SALARY_SCREEN);
+                        },
                         child: Card(
-                          elevation: 10,
+                          elevation: 4,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.r),
+                            borderRadius: BorderRadius.circular(10.r),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE.w),
+                            padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 10.w),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
+                                SizedBox(width: 10.w),
                                 Text(
                                   '₨', // PKR Symbol
                                   style: TextStyle(
-                                    fontSize: 50.sp, // Size of symbol
+                                    fontSize: 25.sp, // Size of symbol
                                     color: ColorResources.PRIMARY_COLOR,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                SizedBox(width: Dimensions.PADDING_SIZE_LARGE.w),
+                                SizedBox(width: 10.w),
                                 Expanded(
-                                  child: Text(
-                                    'Input Budget',
-                                    style: TextStyle(
-                                      fontSize: 22.sp,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                                  child: Text('Input Budget',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displaySmall),
                                 ),
-                                IconButton(
-                                  icon: Icon(Icons.arrow_forward_ios,
-                                      size: 24.sp, color: ColorResources.PRIMARY_COLOR),
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, RoutesName.INPUT_SALARY_SCREEN);
-                                  },
-                                ),
+                                Icon(Icons.arrow_forward_ios,
+                                    size: 24.sp,
+                                    color: ColorResources.PRIMARY_COLOR),
                               ],
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(height: Dimensions.PADDING_SIZE_LARGE.h),
+                      SizedBox(height: 10.h),
 
                       // Second Card with increased height and responsive design
-                      SizedBox(
-                        height: 120.h, // Increased height
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, RoutesName.MY_GOALS_SCREEN);
+                        },
                         child: Card(
-                          elevation: 10,
+                          elevation: 4,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.r),
+                            borderRadius: BorderRadius.circular(10.r),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE.w),
+                            padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 10.w),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
+                                SizedBox(width: 5.w),
                                 Icon(
                                   Icons.flag,
-                                  size: 50.sp,
+                                  size: 35.h,
                                   color: ColorResources.PRIMARY_COLOR,
                                 ),
-                                SizedBox(width: Dimensions.PADDING_SIZE_LARGE.w),
+                                SizedBox(width: 6.w),
                                 Expanded(
-                                  child: Text(
-                                    'My Goals',
-                                    style: TextStyle(
-                                      fontSize: 22.sp,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                                  child: Text('My Goals',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displaySmall),
                                 ),
-                                IconButton(
-                                  icon: Icon(Icons.arrow_forward_ios,
-                                      size: 24.sp, color: ColorResources.PRIMARY_COLOR),
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, RoutesName.MY_GOALS_SCREEN);
-                                  },
-                                ),
+                                Icon(Icons.arrow_forward_ios,
+                                    size: 24.sp,
+                                    color: ColorResources.PRIMARY_COLOR),
                               ],
                             ),
                           ),

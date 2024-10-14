@@ -39,18 +39,29 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: ColorResources.PRIMARY_COLOR,
+      statusBarColor: ColorResources.TRANSPARENT_COLOR,
+      statusBarBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.dark,
     ));
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: MaterialApp(
-        theme: ThemeClass.appTheme,
-        initialRoute:
+      child: Builder(
+        builder: (context) {
+          return MaterialApp(
+            theme: ThemeClass.appTheme,
+            initialRoute:
             isLoggedIn ? RoutesName.DASHBOARD_SCREEN : RoutesName.WELCOME_SCREEN,
-        onGenerateRoute: Routes.generateRoute,
-        debugShowCheckedModeBanner: false,
+            onGenerateRoute: Routes.generateRoute,
+            debugShowCheckedModeBanner: false,
+          );
+        },
       ),
     );
   }

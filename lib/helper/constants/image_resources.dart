@@ -27,4 +27,9 @@ class ImageResources {
   static const String USER_ICON = 'assets/icons/user_icon.svg';
   static const String DISTRICT_ICON = 'assets/icons/district_icon.svg';
   static const String COMPLAINT_ICON = 'assets/icons/complaint_icon.svg';
+  static const String BIKE_ICON = 'assets/icons/bike-motorcycle-icon.svg';
+  static const String GOLD_ICON = 'assets/icons/gold-bars-icon.svg';
+  static const String CAR_ICON = 'assets/icons/car-icon.svg';
+  static const String TICKET_ICON = 'assets/icons/ticket-icon.svg';
+
 }

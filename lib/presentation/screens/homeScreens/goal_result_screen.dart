@@ -1,110 +1,187 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fm_app/helper/constants/colors_resource.dart';
+import 'package:fm_app/presentation/routes/routes_name.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class GoalResultScreen extends StatefulWidget {
-  const GoalResultScreen({super.key});
+  final String goalName;
+  final double goalAmount;
+  final double monthlySavings;
+  final int monthsNeeded;
+
+  const GoalResultScreen({
+    super.key,
+    required this.goalName,
+    required this.goalAmount,
+    required this.monthlySavings,
+    required this.monthsNeeded,
+  });
 
   @override
   State<GoalResultScreen> createState() => _GoalResultScreenState();
 }
 
 class _GoalResultScreenState extends State<GoalResultScreen> {
-  // Variables to store data passed from the previous screen
-  String goalName = '';
-  double goalAmount = 0.0;
-  double monthlySavings = 0.0;
-  int monthsNeeded = 0;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // Retrieve arguments passed from the previous screen (GoalsScreen)
-    final arguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    if (arguments != null) {
-      goalName = arguments['goalName'] ?? '';
-      goalAmount = arguments['goalAmount'] ?? 0.0;
-      monthlySavings = arguments['monthlySavings'] ?? 0.0;
-      monthsNeeded = arguments['monthsNeeded'] ?? 0;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Goal Result'),
+        title: Text(
+          'Goal Result',
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
         centerTitle: true,
-        backgroundColor: Colors.teal,
+        backgroundColor: ColorResources.PRIMARY_COLOR,
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Card(
-              elevation: 4,
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Goal: $goalName',
-                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'Total Amount Needed: \$${goalAmount.toStringAsFixed(2)}',
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Monthly Savings: \$${monthlySavings.toStringAsFixed(2)}',
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Months Needed to Achieve Goal: $monthsNeeded',
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                  ],
+        padding: EdgeInsets.all(16.h),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Text(
+                  'Goal Added',
+                  style: GoogleFonts.poppins(
+                    color: ColorResources.BLACK_COLOR,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 30),
-            Card(
-              elevation: 4,
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'Action Plan:',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      '- Create a budget prioritizing your goal.\n'
-                      '- Track your expenses to maximize savings.\n'
-                      '- Set up a separate savings account for this goal.\n'
-                      '- Automate your savings transfers each month.\n'
-                      '- Review your progress monthly and adjust as needed.',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ],
+              Center(
+                  child: Icon(
+                Icons.check_circle_rounded,
+                size: 130.h,
+                color: ColorResources.PRIMARY_COLOR,
+              )),
+              Card(
+                elevation: 4,
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text.rich(
+                        TextSpan(
+                          text: 'Congratulations! Your goal ',
+                          style: GoogleFonts.montserrat(
+                            fontSize: 18,
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: '${widget.goalName} ',
+                              style: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.sp,
+                                color: ColorResources.PRIMARY_COLOR,
+                              ),
+                            ),
+                            TextSpan(
+                              text:
+                                  'has been successfully added.\n\nTo achieve your goal of ',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 18.sp,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '${widget.goalAmount.toInt()} ',
+                              style: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.sp,
+                                color: ColorResources.PRIMARY_COLOR,
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'you will need to save ',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 18.sp,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '${widget.monthlySavings.toInt()} ',
+                              style: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.sp,
+                                color: ColorResources.PRIMARY_COLOR,
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'per month for ',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 18.sp,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '${widget.monthsNeeded} months.',
+                              style: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.sp,
+                                color: ColorResources.PRIMARY_COLOR,
+                              ),
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign
+                            .center, // Center-align to keep everything balanced
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(height: 20.h,),
+              Center(
+                child: ElevatedButton.icon(
+                  icon: const Icon(Icons.arrow_forward, color: Colors.white),
+                  label: Text(
+                    'Done',
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500,
+                      color: ColorResources.WHITE_COLOR,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorResources.PRIMARY_COLOR,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    textStyle: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(context, RoutesName.DASHBOARD_SCREEN, (route) => false);
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

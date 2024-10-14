@@ -75,10 +75,20 @@ class Routes {
           ),
         );
       case RoutesName.GOAL_RESULT_SCREEN:
+        final args = settings.arguments as Map<String, dynamic>;
+        final String? goalName = args['goalName'];
+        final double? goalAmount = args['goalAmount'];
+        final double? remainingAmount = args['monthlySavings'];
+        final int? monthsNeeded = args ['monthsNeeded'];
         return MaterialPageRoute(
           builder: (BuildContext context) => BlocProvider<DashBoardScreenBloc>(
             create: (context) => DashBoardScreenBloc(),
-            child: const GoalResultScreen(),
+            child: GoalResultScreen(
+              goalName: goalName ?? '',
+              goalAmount: goalAmount ?? 0,
+              monthlySavings: remainingAmount ?? 0,
+              monthsNeeded: monthsNeeded ?? 0,
+            ),
           ),
         );
       case RoutesName.MY_GOALS_SCREEN:

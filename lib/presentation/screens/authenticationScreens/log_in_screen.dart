@@ -66,30 +66,29 @@ class _LogInScreenState extends State<LogInScreen> {
             return SingleChildScrollView(
               child: Column(
                 children: [
-               
-           
-  Container(
-    width: double.infinity,
-    decoration: BoxDecoration(
-      color: ColorResources.PRIMARY_COLOR,
-      borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(40.0), // Adjust the radius as needed
-        bottomRight: Radius.circular(40.0), // Adjust the radius as needed
-      ),
-    ),
-    child: Center(
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-            vertical: ScreenPercentage.SCREEN_SIZE_5.sw),
-        child: Image(
-          image: const AssetImage(ImageResources.APP_LOGO_IMAGE),
-          width: Dimensions.D_200.w,
-        ),
-      ),
-    ),
-  ),
-
-
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: ColorResources.PRIMARY_COLOR,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(40.0),
+                        // Adjust the radius as needed
+                        bottomRight: Radius.circular(
+                            40.0), // Adjust the radius as needed
+                      ),
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: ScreenPercentage.SCREEN_SIZE_5.sw),
+                        child: Image(
+                          image:
+                              const AssetImage(ImageResources.APP_LOGO_IMAGE),
+                          width: Dimensions.D_200.w,
+                        ),
+                      ),
+                    ),
+                  ),
                   SizedBox(height: Dimensions.D_91.h),
                   Padding(
                     padding: EdgeInsets.symmetric(
@@ -185,7 +184,6 @@ class _LogInScreenState extends State<LogInScreen> {
                                 ),
                               ),
                             ),
-                            
                           Align(
                             alignment: Alignment.topRight,
                             child: InkWell(
