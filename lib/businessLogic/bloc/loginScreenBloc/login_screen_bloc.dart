@@ -44,11 +44,5 @@ class LoginScreenBloc extends Bloc<LoginScreenEvent, LoginScreenState> {
       emit(state.copyWith(
           isloading: false, isFailure: true, errorMessage: e.message));
     }
-    emit(state.copyWith(
-      isloading: false,
-      isSuccess: false,
-      isFailure: false,
-      errorMessage: '',
-    ));
   }
 }

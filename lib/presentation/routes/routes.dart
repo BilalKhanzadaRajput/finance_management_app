@@ -10,6 +10,7 @@ import 'package:fm_app/presentation/screens/homeScreens/input_salary_screen.dart
 import 'package:fm_app/presentation/screens/homeScreens/my_goals_screen.dart';
 import 'package:fm_app/presentation/screens/homeScreens/welcome_screen.dart';
 
+import '../../businessLogic/bloc/goalBloc/goal_bloc.dart';
 import '../../businessLogic/bloc/loginScreenBloc/login_screen_bloc.dart';
 import '../../businessLogic/bloc/signUpScreenBloc/sign_up_screen_bloc.dart';
 import '../screens/authenticationScreens/log_in_screen.dart';
@@ -47,49 +48,52 @@ class Routes {
 
       case RoutesName.INPUT_SALARY_SCREEN:
         return MaterialPageRoute(
-          builder: (BuildContext context) => BlocProvider<DashBoardScreenBloc>(
-            create: (context) => DashBoardScreenBloc(),
+          builder: (BuildContext context) => BlocProvider<GoalBloc>(
+            create: (context) => GoalBloc(),
             child: const InputSalaryScreen(),
           ),
         );
-      case RoutesName.EXPENSES_SCREEN:
-        return MaterialPageRoute(
-          builder: (BuildContext context) => BlocProvider<DashBoardScreenBloc>(
-            create: (context) => DashBoardScreenBloc(),
-            child: const ExpensesScreen(), // Pass any arguments if needed
-          ),
-        );
-      case RoutesName.ALL_GOALS_SCREEN:
-        // Extract the arguments passed from the ExpensesScreen
-        final args = settings.arguments as Map<String, dynamic>;
-        final String? salaryRange = args['salaryRange'];
-        final double? remainingAmount = args['remainingAmount'];
 
+      case RoutesName.EXPENSES_SCREEN:
+        final args = settings.arguments as Map<String, dynamic>;
+        final goalBloc = args['goalBloc'] as GoalBloc;
         return MaterialPageRoute(
-          builder: (BuildContext context) => BlocProvider<DashBoardScreenBloc>(
-            create: (context) => DashBoardScreenBloc(),
-            child: GoalsScreen(
-              salaryRange: salaryRange,        // Pass salary range
-              remainingAmount: remainingAmount, // Pass remaining amount
-            ),
-          ),
+          builder: (BuildContext context) {
+            return BlocProvider.value(
+              value: goalBloc,
+              child: ExpensesScreen(
+                goalBloc: goalBloc,
+              ),
+            );
+          },
         );
+
+      case RoutesName.ALL_GOALS_SCREEN:
+        final args = settings.arguments as Map<String, dynamic>;
+        final goalBloc = args['goalBloc'] as GoalBloc;
+
+        return MaterialPageRoute(builder: (BuildContext context) {
+          return BlocProvider.value(
+            value: goalBloc,
+            child: GoalsScreen(
+              goalBloc: goalBloc,
+            ),
+          );
+        });
+
       case RoutesName.GOAL_RESULT_SCREEN:
         final args = settings.arguments as Map<String, dynamic>;
-        final String? goalName = args['goalName'];
-        final double? goalAmount = args['goalAmount'];
-        final double? remainingAmount = args['monthlySavings'];
-        final int? monthsNeeded = args ['monthsNeeded'];
+        final goalBloc = args['goalBloc'] as GoalBloc;
+
         return MaterialPageRoute(
-          builder: (BuildContext context) => BlocProvider<DashBoardScreenBloc>(
-            create: (context) => DashBoardScreenBloc(),
-            child: GoalResultScreen(
-              goalName: goalName ?? '',
-              goalAmount: goalAmount ?? 0,
-              monthlySavings: remainingAmount ?? 0,
-              monthsNeeded: monthsNeeded ?? 0,
-            ),
-          ),
+          builder: (BuildContext context) {
+            return BlocProvider.value(
+              value: goalBloc,
+              child: GoalResultScreen(
+                goalBloc: goalBloc,
+              ),
+            );
+          },
         );
       case RoutesName.MY_GOALS_SCREEN:
         return MaterialPageRoute(
