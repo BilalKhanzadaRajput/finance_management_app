@@ -12,6 +12,8 @@ class RoutesName {
   static const String ALL_GOALS_SCREEN = '/allGoalsScreen';
   static const String MY_GOALS_SCREEN = 'myGoalsScreen';
   static const String WELCOME_SCREEN = '/welcomeScreen';
+  static const String PROFILE_SCREEN = '/profile_screen';
+
 
 
 

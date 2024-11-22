@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fm_app/businessLogic/bloc/dashboardScreenBloc/dashboard_screen_bloc.dart';
+import 'package:fm_app/businessLogic/bloc/userProfileScreenBloc/bloc/user_profile_screen_bloc_bloc.dart';
+import 'package:fm_app/businessLogic/bloc/userProfileScreenBloc/bloc/user_profile_screen_bloc_event.dart';
 import 'package:fm_app/presentation/routes/routes_name.dart';
 import 'package:fm_app/presentation/screens/homeScreens/all_goals_screen.dart';
 import 'package:fm_app/presentation/screens/homeScreens/dashboard_screen.dart';
@@ -8,6 +10,7 @@ import 'package:fm_app/presentation/screens/homeScreens/expenses_screen.dart';
 import 'package:fm_app/presentation/screens/homeScreens/goal_result_screen.dart';
 import 'package:fm_app/presentation/screens/homeScreens/input_salary_screen.dart';
 import 'package:fm_app/presentation/screens/homeScreens/my_goals_screen.dart';
+import 'package:fm_app/presentation/screens/homeScreens/profile_screen.dart';
 import 'package:fm_app/presentation/screens/homeScreens/welcome_screen.dart';
 
 import '../../businessLogic/bloc/goalBloc/goal_bloc.dart';
@@ -97,9 +100,16 @@ class Routes {
         );
       case RoutesName.MY_GOALS_SCREEN:
         return MaterialPageRoute(
-          builder: (BuildContext context) => BlocProvider<DashBoardScreenBloc>(
-            create: (context) => DashBoardScreenBloc(),
+          builder: (BuildContext context) => BlocProvider<GoalBloc>(
+            create: (context) =>GoalBloc(),
             child: const MyGoalsScreen(),
+          ),
+        );
+          case RoutesName.PROFILE_SCREEN:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => BlocProvider<UserProfileBloc>(
+            create: (context) => UserProfileBloc()..add( FetchUserProfile()),
+            child: const ProfileScreen(),
           ),
         );
     }

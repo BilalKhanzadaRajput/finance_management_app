@@ -1,13 +1,13 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fm_app/businessLogic/bloc/dashboardScreenBloc/dashboard_screen_bloc.dart';
+import 'package:fm_app/presentation/customWidgets/custom_snackbar.dart';
 import 'package:fm_app/presentation/routes/routes_name.dart';
 
 import '../../../helper/constants/colors_resource.dart';
 import '../../../helper/constants/dimensions_resource.dart';
-import '../../../helper/constants/image_resources.dart';
 import '../../../helper/constants/string_resources.dart';
 
 class DashBoardScreen extends StatefulWidget {
@@ -38,21 +38,32 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         ),
         backgroundColor: ColorResources.PRIMARY_COLOR,
         centerTitle: true,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: SvgPicture.asset(
-                ImageResources.MENU_ICON,
-                width: Dimensions.D_24.w,
-              ),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
+
+        // Left-side icon button to navigate to Profile Screen
+        leading: IconButton(
+          icon: Icon(Icons.person, color: ColorResources.WHITE_COLOR),
+          onPressed: () {
+            Navigator.pushNamed(context, RoutesName.PROFILE_SCREEN);
           },
         ),
+
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout, color: ColorResources.WHITE_COLOR),
+            onPressed: () {
+              showLogOutDialog(context, () {
+                context.read<DashBoardScreenBloc>().add(LogOutUser());
+                showCustomSnackbar(
+                  context,
+                  'Logged Out',
+                  'You have been successfully logged out.',
+                  ContentType.success,
+                );
+              });
+            },
+          ),
+        ],
       ),
-      drawer: customDrawer(context: context),
       body: BlocListener<DashBoardScreenBloc, DashBoardScreenState>(
         listener: (context, state) {
           if (state.hasError) {
@@ -98,7 +109,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             borderRadius: BorderRadius.circular(10.r),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 10.w),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 14.h, horizontal: 10.w),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -140,7 +152,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             borderRadius: BorderRadius.circular(10.r),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 10.w),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 14.h, horizontal: 10.w),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -173,55 +186,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             },
           ),
         ),
-      ),
-    );
-  }
-
-  Widget customDrawer({required BuildContext context}) {
-    return Drawer(
-      backgroundColor: ColorResources.PRIMARY_COLOR,
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: Dimensions.PADDING_SIZE_SMALL.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.close, color: ColorResources.WHITE_COLOR),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          ),
-          const Spacer(),
-          Padding(
-            padding: EdgeInsets.only(
-                left: Dimensions.PADDING_8.w,
-                bottom: Dimensions.PADDING_SIZE_EXTRA_LARGE.w),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-                showLogOutDialog(context, () {
-                  context.read<DashBoardScreenBloc>().add(LogOutUser());
-                });
-              },
-              child: ListTile(
-                leading: Icon(Icons.logout_outlined,
-                    color: ColorResources.WHITE_COLOR),
-                title: Text(
-                  StringResources.LOG_OUT_TEXT,
-                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                        fontSize: Dimensions.FONT_SIZE_LARGE.sp,
-                        color: ColorResources.WHITE_COLOR,
-                      ),
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -46,10 +46,18 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                Image(
-                  image: const AssetImage(ImageResources.STANDING_MAN_IMAGE),
-                  width: 417.w,
-                  height: 428.h,
+                // Image with flexible resizing
+                Expanded(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return Image(
+                        image: const AssetImage(ImageResources.STANDING_MAN_IMAGE),
+                        width: constraints.maxWidth * 0.9,
+                        height: constraints.maxHeight * 0.8,
+                        fit: BoxFit.contain,
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
@@ -62,8 +70,7 @@ class WelcomeScreen extends StatelessWidget {
             style: TextStyle(
               color: ColorResources.PRIMARY_COLOR,
               fontSize: 24.sp,
-              fontWeight:
-                  FontWeight.w900,
+              fontWeight: FontWeight.w900,
             ),
           ),
           Padding(
@@ -78,7 +85,7 @@ class WelcomeScreen extends StatelessWidget {
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center, // Center the buttons
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 width: 105.w,
@@ -87,7 +94,6 @@ class WelcomeScreen extends StatelessWidget {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ColorResources.PRIMARY_COLOR,
-                    // Background color
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.r),
                     ),
@@ -108,10 +114,8 @@ class WelcomeScreen extends StatelessWidget {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ColorResources.PRIMARY_COLOR,
-                    // Background color
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          8.r), // Optional rounded corners
+                      borderRadius: BorderRadius.circular(8.r),
                     ),
                   ),
                   onPressed: () {

@@ -134,7 +134,7 @@ class _InputSalaryScreenState extends State<InputSalaryScreen> {
                       ),
                       SizedBox(height: 20.h),
                       Text(
-                        'Enter Monthly Salary Range',
+                        'Enter Monthly Income Range',
                         style: GoogleFonts.poppins(
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w500,
@@ -149,7 +149,7 @@ class _InputSalaryScreenState extends State<InputSalaryScreen> {
                           controller: salaryRangeController,
                           decoration: InputDecoration(
                             hintText:
-                                'Enter Salary Range (e.g., ₨100,000 - ₨200,000)',
+                                'Enter Income Range (e.g., ₨100,000 - ₨200,000)',
                             hintStyle: TextStyle(
                               color: Colors.grey.shade600,
                               fontSize: 16.sp,
@@ -164,7 +164,7 @@ class _InputSalaryScreenState extends State<InputSalaryScreen> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter a salary range.';
+                              return 'Please enter a Income range.';
                             }
                             final regex = RegExp(r'^\d+$');
                             if (!regex.hasMatch(value)) {
@@ -193,7 +193,7 @@ class _InputSalaryScreenState extends State<InputSalaryScreen> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(
-                                    'Please select a user type and enter a salary range',
+                                    'Please select a user type and enter a Income range',
                                   ),
                                 ),
                               );

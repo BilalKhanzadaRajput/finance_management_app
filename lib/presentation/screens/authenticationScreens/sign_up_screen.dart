@@ -93,7 +93,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     .add(SignUpFullNameChanged(value));
                               },
                               validator: (value) =>
-                                  value.isEmpty ? "Enter your full name" : null,
+                                  value!.isEmpty ? "Enter your full name" : null,
                               prefixIconSvgPath: ImageResources.USER_ICON,
                             ),
                           ),
@@ -108,7 +108,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     .add(SignUpEmailChanged(value));
                               },
                               validator: (value) =>
-                                  value.validatePassword(value),
+                                  value!.validatePassword(value),
                               prefixIconSvgPath: ImageResources.USER_ICON,
                             ),
                           ),
@@ -123,7 +123,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     .add(SignUpPhoneChanged(value));
                               },
                               validator: (value) =>
-                                  value.validatePhoneNumber(value),
+                                  value!.validatePhoneNumber(value),
                               prefixIconSvgPath: ImageResources.PHONE_ICON,
                               keyboardType: TextInputType.phone,
                               inputFormatters: [
@@ -144,7 +144,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     .add(SignUpPasswordChanged(value));
                               },
                               validator: (value) =>
-                                  value.validatePassword(value),
+                                  value!.validatePassword(value),
                               prefixIconSvgPath: ImageResources.LOCK_ICON,
                               showSuffixIcon: true,
                               onVisibilityTap: () {
@@ -166,7 +166,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     .add(SignUpConfirmPasswordChanged(value));
                               },
                               validator: (value) =>
-                                  value.validateConfirmPassword(value),
+                                  value!.validateConfirmPassword(value),
                               prefixIconSvgPath: ImageResources.LOCK_ICON,
                               showSuffixIcon: true,
                               onVisibilityTap: () {
@@ -196,7 +196,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           } else if (state.isSubmitted) {
                             Navigator.pushNamedAndRemoveUntil(
                               context,
-                              RoutesName.HOME_SCREEN,
+                              RoutesName.DASHBOARD_SCREEN,
                               (Route<dynamic> route) => false,
                             );
                           } else if (state.submissionFailed) {

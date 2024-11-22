@@ -18,7 +18,22 @@ class LoginScreenBloc extends Bloc<LoginScreenEvent, LoginScreenState> {
 
   void _onEmailChanged(
       LoginEmailChanged event, Emitter<LoginScreenState> emit) {
-    emit(state.copyWith(email: event.email));
+    emit(state.copyWith(
+      email: event.email,
+      isFailure: false,
+      errorMessage: '',
+      isSuccess: false,
+    ));
+  }
+
+  void _onPasswordChanged(
+      LoginPasswordChanged event, Emitter<LoginScreenState> emit) {
+    emit(state.copyWith(
+      password: event.password,
+      isFailure: false,
+      errorMessage: '',
+      isSuccess: false,
+    ));
   }
 
   void _onPasswordVisibility(
@@ -26,13 +41,23 @@ class LoginScreenBloc extends Bloc<LoginScreenEvent, LoginScreenState> {
     emit(state.copyWith(passwordVisibility: !state.passwordVisibility));
   }
 
-  void _onPasswordChanged(
-      LoginPasswordChanged event, Emitter<LoginScreenState> emit) {
-    emit(state.copyWith(password: event.password));
-  }
-
   void _onSubmit(LoginSubmit event, Emitter<LoginScreenState> emit) async {
-    emit(state.copyWith(isloading: true));
+    // Validate required fields
+    if (state.email.isEmpty || state.password.isEmpty) {
+      emit(state.copyWith(
+        isFailure: true,
+        errorMessage: 'Email and password are required',
+        isSuccess: false,
+      ));
+      return;
+    }
+
+    emit(state.copyWith(
+      isloading: true,
+      isFailure: false,
+      errorMessage: '',
+      isSuccess: false,
+    ));
 
     try {
       await _auth.signInWithEmailAndPassword(
@@ -42,7 +67,10 @@ class LoginScreenBloc extends Bloc<LoginScreenEvent, LoginScreenState> {
       emit(state.copyWith(isloading: false, isSuccess: true));
     } on FirebaseAuthException catch (e) {
       emit(state.copyWith(
-          isloading: false, isFailure: true, errorMessage: e.message));
+        isloading: false,
+        isFailure: true,
+        errorMessage: e.message,
+      ));
     }
   }
 }

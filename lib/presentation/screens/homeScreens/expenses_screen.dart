@@ -1,11 +1,14 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fm_app/helper/constants/colors_resource.dart';
+import 'package:fm_app/presentation/customWidgets/custom_snackbar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../businessLogic/bloc/goalBloc/goal_bloc.dart';
 import '../../routes/routes_name.dart';
+
 class ExpensesScreen extends StatefulWidget {
   final GoalBloc goalBloc;
 
@@ -21,7 +24,8 @@ class ExpensesScreen extends StatefulWidget {
 class _ExpensesScreenState extends State<ExpensesScreen> {
   final TextEditingController groceriesController = TextEditingController();
   final TextEditingController utilityBillsController = TextEditingController();
-  final TextEditingController mobileRechargesController = TextEditingController();
+  final TextEditingController mobileRechargesController =
+      TextEditingController();
   final TextEditingController otherExpensesController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -203,7 +207,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               labelText: 'Other Expenses',
-                              prefixIcon: const Icon(Icons.miscellaneous_services),
+                              prefixIcon:
+                                  const Icon(Icons.miscellaneous_services),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -230,19 +235,23 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                           // Proceed Button
                           Center(
                             child: ElevatedButton.icon(
-                              onPressed: () => validateAndProceed(widget.goalBloc, state),
-                              icon: const Icon(Icons.arrow_forward, color: Colors.white),
+                              onPressed: () =>
+                                  validateAndProceed(widget.goalBloc, state),
+                              icon: const Icon(Icons.arrow_forward,
+                                  color: Colors.white),
                               label: const Text(
                                 'Next',
                                 style: TextStyle(color: Colors.white),
                               ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: ColorResources.PRIMARY_COLOR,
-                                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 40, vertical: 15),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                textStyle: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
@@ -260,30 +269,92 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   }
 
   void validateAndProceed(GoalBloc bloc, GoalState state) {
-    if (!formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please fill in all fields with valid amounts.'),
-        ),
+    // Count how many fields are filled
+    int filledFieldsCount = 0;
+    
+    if (groceriesController.text.isNotEmpty) filledFieldsCount++;
+    if (utilityBillsController.text.isNotEmpty) filledFieldsCount++;
+    if (mobileRechargesController.text.isNotEmpty) filledFieldsCount++;
+    if (otherExpensesController.text.isNotEmpty) filledFieldsCount++;
+
+    // Check if at least 2 fields are filled
+    if (filledFieldsCount < 2) {
+      showCustomSnackbar(
+        context,
+        'Note',
+        'Please fill at least 2 expense fields.',
+        ContentType.failure,
       );
       return;
     }
 
-    double totalExpenses = (state.groceries ?? 0) +
-        (state.utilityBills ?? 0) +
-        (state.mobileRecharge ?? 0) +
-        (state.otherExpenses ?? 0);
+    // Validate that filled fields contain valid numbers
+    bool hasInvalidInput = false;
+    final regex = RegExp(r'^\d+$');
+
+    if (groceriesController.text.isNotEmpty && !regex.hasMatch(groceriesController.text)) {
+      hasInvalidInput = true;
+    }
+    if (utilityBillsController.text.isNotEmpty && !regex.hasMatch(utilityBillsController.text)) {
+      hasInvalidInput = true;
+    }
+    if (mobileRechargesController.text.isNotEmpty && !regex.hasMatch(mobileRechargesController.text)) {
+      hasInvalidInput = true;
+    }
+    if (otherExpensesController.text.isNotEmpty && !regex.hasMatch(otherExpensesController.text)) {
+      hasInvalidInput = true;
+    }
+
+    if (hasInvalidInput) {
+      showCustomSnackbar(
+        context,
+        'Note',
+        'Please enter valid numbers in filled fields.',
+        ContentType.failure,
+      );
+      return;
+    }
+
+    // Calculate total expenses from filled fields
+    double totalExpenses = 0;
+    if (groceriesController.text.isNotEmpty) {
+      totalExpenses += double.parse(groceriesController.text);
+    }
+    if (utilityBillsController.text.isNotEmpty) {
+      totalExpenses += double.parse(utilityBillsController.text);
+    }
+    if (mobileRechargesController.text.isNotEmpty) {
+      totalExpenses += double.parse(mobileRechargesController.text);
+    }
+    if (otherExpensesController.text.isNotEmpty) {
+      totalExpenses += double.parse(otherExpensesController.text);
+    }
 
     if (totalExpenses > (state.monthlySalary ?? 0)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Total expenses cannot exceed your salary range.')),
+      showCustomSnackbar(
+        context,
+        'Note',
+        'Total expenses cannot exceed your salary range.',
+        ContentType.failure,
       );
       return;
     }
 
-    double remainingAmount = (state.monthlySalary ?? 0) - totalExpenses;
+    // Update the bloc with the values (use 0.0 for empty fields)
+    bloc.add(UpdateGroceries(groceriesController.text.isEmpty ? 0.0 : double.parse(groceriesController.text)));
+    bloc.add(UpdateUtilityBills(utilityBillsController.text.isEmpty ? 0.0 : double.parse(utilityBillsController.text)));
+    bloc.add(UpdateMobileRecharge(mobileRechargesController.text.isEmpty ? 0.0 : double.parse(mobileRechargesController.text)));
+    bloc.add(UpdateOtherExpenses(otherExpensesController.text.isEmpty ? 0.0 : double.parse(otherExpensesController.text)));
 
+    double remainingAmount = (state.monthlySalary ?? 0) - totalExpenses;
     bloc.add(RemainingAmount(remainingAmount));
+
+    showCustomSnackbar(
+      context,
+      'Successful',
+      'Expenses recorded successfully!',
+      ContentType.success,
+    );
 
     Navigator.pushNamed(
       context,

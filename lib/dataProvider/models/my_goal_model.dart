@@ -2,6 +2,7 @@ class MyGoal {
   final String goalName;
   final String goalAmount;
   final String monthsNeeded;
+  final String amountNeeded;
   final String salary;
   final String userType;
   final String userId;
@@ -15,6 +16,7 @@ class MyGoal {
     required this.userType,
     required this.userId,
     required this.date,
+    required this.amountNeeded,
   });
 
   factory MyGoal.fromMap(Map<String, dynamic> map) {
@@ -22,6 +24,7 @@ class MyGoal {
       goalName: map['goalName'] ?? 'No goal name provided',
       goalAmount: map['goalAmount'] ?? 'No goal amount provided',
       monthsNeeded: map['monthsNeeded'] ?? 'No months needed provided',
+      amountNeeded: map['amountNeeded'] ?? 'No amount needed provided',
       salary: map['salary'] ?? 'No salary provided',
       userType: map['userType'] ?? 'No user type provided',
       userId: map['userId'] ?? 'No user ID provided',
@@ -34,6 +37,7 @@ class MyGoal {
       'goalName': goalName,
       'goalAmount': goalAmount,
       'monthsNeeded': monthsNeeded,
+      'amountNeeded': amountNeeded,
       'salary': salary,
       'userType': userType,
       'userId': userId,
@@ -43,6 +47,6 @@ class MyGoal {
 
   @override
   String toString() {
-    return 'MyGoal(goalName: $goalName, goalAmount: $goalAmount, monthsNeeded: $monthsNeeded, salary: $salary, userType: $userType, userId: $userId, date: $date)';
+    return 'MyGoal(goalName: $goalName, goalAmount: $goalAmount, monthsNeeded: $monthsNeeded, salary: $salary, userType: $userType, userId: $userId, date: $date, amountNeeded:$amountNeeded)';
   }
 }

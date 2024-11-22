@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fm_app/helper/constants/colors_resource.dart';
 import 'package:fm_app/presentation/routes/routes_name.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:percent_indicator/percent_indicator.dart'; // Import the package
 
 import '../../../businessLogic/bloc/goalBloc/goal_bloc.dart';
 import '../../../dataProvider/models/my_goal_model.dart';
@@ -20,6 +21,14 @@ class GoalResultScreen extends StatefulWidget {
 
 class _GoalResultScreenState extends State<GoalResultScreen> {
   String userId = FirebaseAuth.instance.currentUser!.uid;
+
+  // Method to calculate progress percentage
+  double calculateProgressPercentage(
+      double remainingAmount, double goalAmount) {
+    if (goalAmount <= 0) return 0.0; // Avoid division by zero
+    double progress = (remainingAmount / goalAmount) * 100; // Percentage
+    return progress.clamp(0, 100); // Clamp between 0 and 100
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +75,12 @@ class _GoalResultScreenState extends State<GoalResultScreen> {
               }
             },
             builder: (context, state) {
+              // Calculate progress percentage
+              double progressPercentage = calculateProgressPercentage(
+                state.remainingAmount ?? 0,
+                state.goalAmount ?? 0,
+              );
+
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,12 +95,43 @@ class _GoalResultScreenState extends State<GoalResultScreen> {
                       ),
                     ),
                   ),
+
+                  // Animated Circular Progress Indicator
                   Center(
-                      child: Icon(
-                    Icons.check_circle_rounded,
-                    size: 130.h,
-                    color: ColorResources.PRIMARY_COLOR,
-                  )),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 15.h),
+                        CircularPercentIndicator(
+                          radius: 80.0,
+                          lineWidth: 8.0,
+                          animation: true,
+                          animationDuration: 1200,
+                          percent: progressPercentage / 100,
+                          center: Text(
+                            '${progressPercentage.toStringAsFixed(1)}%',
+                            style: GoogleFonts.poppins(
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          backgroundColor: ColorResources.GREY_COLOR,
+                          progressColor: ColorResources.PRIMARY_COLOR,
+                          circularStrokeCap: CircularStrokeCap.round,
+                        ),
+                        SizedBox(height: 10.h),
+                        // Description of Circular Progress Indicator
+                        SizedBox(height: 10.h),
+                        Text(
+                          'This progress indicator shows how much of your goal you have achieved. It calculates your progress by dividing the amount saved by the total goal amount. The visual representation helps you stay motivated and informed about your savings journey.',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                            fontSize: 14.sp,
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   Card(
                     elevation: 4,
                     margin: const EdgeInsets.symmetric(
@@ -170,7 +216,7 @@ class _GoalResultScreenState extends State<GoalResultScreen> {
                             ),
                             textAlign: TextAlign
                                 .center, // Center-align to keep everything balanced
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -180,10 +226,10 @@ class _GoalResultScreenState extends State<GoalResultScreen> {
                   ),
                   Center(
                     child: ElevatedButton.icon(
-                      icon:  const Icon(Icons.arrow_forward,
-                              color: Colors.white),
+                      icon:
+                          const Icon(Icons.arrow_forward, color: Colors.white),
                       label: Text(
-                         'Done',
+                        'Done',
                         style: TextStyle(
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w500,
@@ -211,20 +257,26 @@ class _GoalResultScreenState extends State<GoalResultScreen> {
                         print('User Type: ${state.userType}');
                         print('User ID: $userId');
 
+                        Navigator.pushNamed(
+                          context,
+                          RoutesName.DASHBOARD_SCREEN,
+                        );
+
                         // Check if any value is unexpectedly null or formatted incorrectly
                         widget.goalBloc.add(AddMyGoal(MyGoal(
                           goalName: state.goalName ?? '',
                           goalAmount: state.goalAmount?.toString() ?? '0',
                           monthsNeeded: state.monthsNeeded?.toString() ?? '0',
+                          amountNeeded:
+                              state.remainingAmount?.toString() ?? '0',
                           salary: state.salaryRange?.toString() ?? '0',
                           userType: state.userType ?? '',
                           userId: userId,
                           date: DateTime.now().toString().split(' ').first,
                         )));
                       },
-
                     ),
-                  )
+                  ),
                 ],
               );
             },

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:fm_app/presentation/customWidgets/custom_snackbar.dart';
 import 'package:fm_app/helper/extension/strings_extensions.dart';
 
 import '../../../businessLogic/bloc/loginScreenBloc/login_screen_bloc.dart';
@@ -48,17 +50,27 @@ class _LogInScreenState extends State<LogInScreen> {
                 ),
               );
             } else if (state.isSuccess) {
+              Navigator.pop(context);
+
+              showCustomSnackbar(
+                context,
+                'Welcome',
+                'Login successful. Welcome to Finance Management!',
+                ContentType.success,
+              );
+
               Navigator.pushNamedAndRemoveUntil(
                 context,
-                RoutesName.HOME_SCREEN,
+                RoutesName.DASHBOARD_SCREEN,
                 (Route<dynamic> route) => false,
               );
             } else if (state.isFailure) {
               Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.errorMessage ?? ''),
-                ),
+              showCustomSnackbar(
+                context,
+                'Error',
+                state.errorMessage ?? 'Login failed. Please try again.',
+                ContentType.failure,
               );
             }
           },
@@ -72,9 +84,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       color: ColorResources.PRIMARY_COLOR,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(40.0),
-                        // Adjust the radius as needed
-                        bottomRight: Radius.circular(
-                            40.0), // Adjust the radius as needed
+                        bottomRight: Radius.circular(40.0),
                       ),
                     ),
                     child: Center(
@@ -124,7 +134,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                     .read<LoginScreenBloc>()
                                     .add(LoginEmailChanged(value));
                               },
-                              validator: (value) => value.validateEmail(value),
+                              validator: (value) => value!.validateEmail(value),
                               focusNode: _focusNode,
                             ),
                           ),
@@ -143,7 +153,8 @@ class _LogInScreenState extends State<LogInScreen> {
                                   .read<LoginScreenBloc>()
                                   .add(LoginPasswordChanged(value));
                             },
-                            validator: (value) => value.validatePassword(value),
+                            validator: (value) =>
+                                value!.validatePassword(value),
                           ),
                           Padding(
                             padding: EdgeInsets.only(
@@ -160,30 +171,6 @@ class _LogInScreenState extends State<LogInScreen> {
                               text: StringResources.CONTINUE_BUTTON_TEXT,
                             ),
                           ),
-                          if (state.errorMessage != null)
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Text(
-                                state.errorMessage!,
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: Dimensions.FONT_SIZE_SMALL.sp,
-                                ),
-                              ),
-                            ),
-                          if (state.successMessage != null)
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Text(
-                                state.successMessage!,
-                                style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: Dimensions.FONT_SIZE_SMALL.sp,
-                                ),
-                              ),
-                            ),
                           Align(
                             alignment: Alignment.topRight,
                             child: InkWell(
@@ -201,7 +188,31 @@ class _LogInScreenState extends State<LogInScreen> {
                                             .FONT_SIZE_EXTRA_SMALL.sp),
                               ),
                             ),
-                          )
+                          ),
+                          if (state.errorMessage != null)
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Text(
+                                state.errorMessage!,
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: Dimensions.FONT_SIZE_SMALL.sp,
+                                ),
+                              ),
+                            ),
+                          if (state.successMessage != null)
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: Text(
+                                state.successMessage!,
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: Dimensions.FONT_SIZE_SMALL.sp,
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                     ),

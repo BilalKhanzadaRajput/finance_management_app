@@ -141,3 +141,11 @@ class FetchGoals extends GoalEvent {}
 
 
 
+class DeleteGoal extends GoalEvent {
+  final String goalId;
+
+  const DeleteGoal(this.goalId);
+
+  @override
+  List<Object?> get props => [goalId];
+}

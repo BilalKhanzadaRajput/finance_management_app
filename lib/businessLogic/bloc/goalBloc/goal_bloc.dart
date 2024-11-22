@@ -132,7 +132,7 @@ class GoalBloc extends Bloc<GoalEvent, GoalState> {
         }
 
         final userDoc = await _database.collection('users').doc(user.uid).get();
-        final isAdmin = userDoc.data()?['isAdmin'] ?? false;
+final isAdmin = userDoc.data()?['isAdmin']?.toString().toLowerCase() == 'true';
 
         final myGoals = await _fetchMyGoalsFromFirestore(user.uid, isAdmin);
 

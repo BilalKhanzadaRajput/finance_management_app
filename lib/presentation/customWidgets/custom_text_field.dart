@@ -9,7 +9,7 @@ import '../../helper/constants/dimensions_resource.dart';
 class CustomTextFormField extends StatelessWidget {
   final String? hintText;
   final Function(String)? onChanged;
-  final Function(String)? validator;
+  final String? Function(String?)? validator;
   final bool obscureText;
   final String prefixIconSvgPath;
   final bool showSuffixIcon;
@@ -45,8 +45,8 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height ?? Dimensions.D_60.h, // Use default height if not provided
-      width: width ?? double.infinity, // Use default width if not provided
+      height: height ?? Dimensions.D_80.h, // Set a larger height to account for error text
+      width: width ?? double.infinity,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -73,16 +73,16 @@ class CustomTextFormField extends StatelessWidget {
           ),
           suffixIcon: showSuffixIcon
               ? GestureDetector(
-                  onTap: onVisibilityTap,
-                  child: Padding(
-                    padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT.w),
-                    child: obscureText
-                        ? Icon(Icons.visibility_off,
-                            color: ColorResources.GREY_COLOR)
-                        : Icon(Icons.visibility,
-                            color: ColorResources.GREY_COLOR),
-                  ),
-                )
+            onTap: onVisibilityTap,
+            child: Padding(
+              padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT.w),
+              child: obscureText
+                  ? Icon(Icons.visibility_off,
+                  color: ColorResources.GREY_COLOR)
+                  : Icon(Icons.visibility,
+                  color: ColorResources.GREY_COLOR),
+            ),
+          )
               : null,
           fillColor: ColorResources.WHITE_COLOR,
           border: OutlineInputBorder(
@@ -93,12 +93,16 @@ class CustomTextFormField extends StatelessWidget {
             vertical: Dimensions.PADDING_SIZE_DEFAULT.h,
             horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
           ),
+          // Ensure error message doesn’t affect height
+          errorStyle: TextStyle(
+            fontSize: Dimensions.FONT_SIZE_SMALL.sp,
+            height: 1.1, // Adjust height to control spacing below input field
+          ),
+          errorMaxLines: 2, // Set a limit for error message lines
         ),
         obscureText: obscureText,
         onChanged: onChanged,
-        validator: (value) {
-          return validator?.call(value ?? '');
-        },
+        validator: validator,
         focusNode: focusNode,
         keyboardType: keyboardType,
         readOnly: readOnly,
